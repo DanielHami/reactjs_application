@@ -1,0 +1,3 @@
+const FETCH_SERVICES = 'FETCH_SERVICES'
+
+export default FETCH_SERVICES

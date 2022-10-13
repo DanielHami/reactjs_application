@@ -1,5 +1,5 @@
-import { configureStore, combineReducers } from '@reduxjs/toolkit'
-import servicesReducer from 'reducers'
+import { configureStore} from '@reduxjs/toolkit'
+import serviceApp from 'reducers'
 
 const logger = store => dispatch => action => {
     console.group(action.type)
@@ -11,11 +11,12 @@ const logger = store => dispatch => action => {
     return returnValue
 }
 
-const promise = store => dispatch => action => {
+const promise = store => next => action => {
     if (typeof action.then === 'function') {
-        return action.then(dispatch)
+        console.log(action)
+        return action.then(next)
     }
-    return dispatch(action)
+    return next(action)
 }
 
 const applyMiddlewares = (store, middlewares) => {
@@ -28,9 +29,6 @@ const applyMiddlewares = (store, middlewares) => {
 
 const initStore = () => {
     const middlewares = [promise]
-    const serviceApp = combineReducers({
-        service: servicesReducer
-    })
     const reduxDevTools = window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
     const store = configureStore({
         reducer: serviceApp, reduxDevTools
@@ -38,7 +36,6 @@ const initStore = () => {
     if (process.env.NODE_ENV !== 'production') {
         middlewares.push(logger)
     }
-
     applyMiddlewares(store, middlewares)
     return store
 }

@@ -29,7 +29,8 @@ class Home extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        services: state.service.items
+        services: state.services.items
     }
 }
+
 export default connect(mapStateToProps)(Home)

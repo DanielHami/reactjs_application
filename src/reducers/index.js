@@ -1,13 +1,7 @@
-import FETCH_SERVICES from "types"
+import services from './services'
+import selectedService from './selectedService'
+import { combineReducers } from '@reduxjs/toolkit'
 
+const serviceApp = combineReducers({services, selectedService})
 
-function servicesReducer(state = {items: []}, action) {
-  switch(action.type){
-    case FETCH_SERVICES:
-        return {...state, items: action.services}
-    default:
-        return state
-  }
-}
-
-export default servicesReducer
+export default serviceApp

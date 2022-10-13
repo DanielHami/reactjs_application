@@ -9,9 +9,7 @@ export default function Navbar() {
         <p>logo</p>
         <ul className="flex gap-6">
             <li>
-                <NavLink style={({isActive}) => {
-                    return isActive ? {color: "red"} : {}
-                }} to='/'>Home</NavLink>
+                <NavLink to='/'>Home</NavLink>
             </li>
             <li>
                 <NavLink to='/profile'>Profile</NavLink>

@@ -3,6 +3,7 @@ import { collection, getDocs,doc,getDoc } from "firebase/firestore";
 import { getFirestore } from 'firebase/firestore'
 import {FETCH_SERVICES, FETCH_SERVICE_BY_ID} from 'types';
 
+
 const db = getFirestore();
 
 export function fetchServices() {

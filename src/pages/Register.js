@@ -1,8 +1,7 @@
+import RegistrationForm from "components/auth/Registration";
 
 export default function Register() {
     return(
-        <div>
-            Register page
-        </div>
+       <RegistrationForm/>
     )
 }

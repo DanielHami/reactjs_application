@@ -3,21 +3,16 @@
 import { useForm } from "react-hook-form";
 import { validImage,validUrl, samePassword } from "validators/ValidatorComponents";
 
-export default function RegistrationForm() {
+export default function RegistrationForm(props) {
     const { register, handleSubmit, formState: { errors }, getValues } = useForm()
-
-    const getData = data => {
-        console.log(data)
-    }
-
-
+    
     return (
         <div>
             <div className="text-center">
                 <h1 className="text-2xl font-bold">Register</h1>
                 <p>Please register to proceed</p>
             </div>
-            <form onSubmit={handleSubmit(getData)} className="flex flex-col w-1/3 mx-auto p-8 border-2">
+            <form onSubmit={handleSubmit(props.onRegister)} className="flex flex-col w-1/3 mx-auto p-8 border-2">
                 <label> Add your email</label>
                 <input
                     {...register('email', { required: true, pattern: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g })}

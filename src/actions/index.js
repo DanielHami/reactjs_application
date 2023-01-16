@@ -1,12 +1,12 @@
 import app from 'database'
-import { collection, getDocs, doc, getDoc, setDoc, } from "firebase/firestore";
+import { collection, getDocs, doc, getDoc, setDoc, where, query} from "firebase/firestore";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,signInWithPopup, GithubAuthProvider, signOut } from "firebase/auth";
 import { getFirestore } from 'firebase/firestore'
-import { FETCH_SERVICES, FETCH_SERVICE_BY_ID, SET_AUTH_USER } from 'types';
+import { FETCH_SERVICES, FETCH_SERVICE_BY_ID, SET_AUTH_USER, RESET_AUTH_STATE } from 'types';
 
 
 const db = getFirestore(app);
-const auth = getAuth
+const auth = getAuth();
 
 export async function fetchServices() {
   const snapshot = await getDocs(collection(db, "services"));
@@ -15,6 +15,15 @@ export async function fetchServices() {
     type: FETCH_SERVICES,
     services
   };
+}
+
+export async function fetchUserServices(userId) {
+  const snapshot = await getDocs(collection(db, "services"));
+  const q = query(snapshot, where("user", "==", userId));
+  const services = q.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+   return {
+    services
+  }
 }
 
 export async function fetchById(serviceId) {
@@ -62,15 +71,11 @@ export const login = async ({ email, password}) => {
 
 //logout user 
 
-export const logout = dispatch =>  {
-  signOut(auth).then(_ => {
-    return (
-      dispatch({user: null, type: SET_AUTH_USER })
-    )
-  }).catch((error) => {
-    // An error happened.
-  });
+export const logout = async () => {
+ await signOut(auth);
+  return ({ user: null, type: SET_AUTH_USER });
 }
+
 
 export const githubLogin = async () => {
 
@@ -109,4 +114,20 @@ export const storeAuthUser = authUser => {
   }else {
     return ({user: null, type: SET_AUTH_USER})
   }
+}
+
+export const resetAuthState = () => {
+  return {
+      type: RESET_AUTH_STATE
+    }
+  
+}
+
+//create services
+
+export const createService = async (newService, userId) => {
+  newService.price = parseInt(newService.price, 10)
+  newService.user = userId
+  const a = doc(collection(db, "services"));
+   await setDoc(a, newService )
 }

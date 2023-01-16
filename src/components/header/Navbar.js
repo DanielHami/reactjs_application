@@ -1,9 +1,9 @@
-import { NavLink } from "react-router-dom"
+import { Link, NavLink } from "react-router-dom"
 
 
 export default function Navbar(props) {
-    const { user,isAuth } = props.auth
-    const { handleLogout} = props
+    const { user, isAuth } = props.auth
+    const { logout } = props
 
     return (
         <nav className="flex justify-between">
@@ -26,6 +26,7 @@ export default function Navbar(props) {
                 <li>
                     <NavLink to='/faq'>FAQ</NavLink>
                 </li>
+
                 {!isAuth && <>
                     <li>
                         <NavLink to='/login'>Log in</NavLink>
@@ -36,9 +37,18 @@ export default function Navbar(props) {
                 </>
                 }
                 {
-                  isAuth && <>
-                   <button onClick={handleLogout}>Logout</button>
-                  </>
+                    isAuth && <>
+                                  <li>
+                                    <Link to="/">Manage</Link>
+                                  </li>
+                                  <li>
+                                    <Link to="/services/new">Create Service</Link>
+                                  </li>
+                                  <li>
+                                    <Link to="/services/my">Your Service</Link>
+                                 </li>
+                        <button onClick={logout}>Logout</button>
+                    </>
                 }
             </ul>
         </nav>

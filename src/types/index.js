@@ -1,4 +1,5 @@
 export const FETCH_SERVICES = 'FETCH_SERVICES';
 export const FETCH_SERVICE_BY_ID = 'FETCH_SERVICE_BY_ID';
 export const SET_AUTH_USER = 'SET_AUTH_USER';
+export const RESET_AUTH_STATE = 'RESET_AUTH_STATE'
 

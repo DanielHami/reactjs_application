@@ -9,9 +9,13 @@ import Faq from "pages/Faq";
 import Login from "pages/Login";
 import Register from "pages/Register";
 import  NotFound  from "pages/NotFound";
+import SecretPage from "pages/Hide";
 import React from "react";
+import CreateServices from "pages/services/createServices";
+import UserServices from "pages/UserServices";
 import { connect } from "react-redux"
 import {logout} from "actions"
+import Spinner from "components/spinner/Spinner";
 
 
 class ServiceApp extends React.Component {
@@ -21,16 +25,19 @@ class ServiceApp extends React.Component {
     renderApplication() {
         return (
             <React.Fragment>
-                <Navbar auth={this.props.auth} logout={this.handleLogout} />
+                <Navbar id="navbar-main" auth={this.props.auth} logout={this.handleLogout} />
                   <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/profile" element={<Profile />}></Route>
+                    <Route path="/services/my" element={<UserServices/>} />
+                    <Route path="/services/new" element={<CreateServices />} />
                     <Route path="/services/:serviceId" element={<ServiceDetail />}></Route>
                     <Route path="/services" element={<Services />}></Route>
                     <Route path="/faq" element={<Faq />}></Route>
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
                     <Route path="*" element={<NotFound />}></Route>
+                    <Route path="/secret" element={<SecretPage />}></Route>
                    </Routes>
                 <Footer/>
             </React.Fragment>
@@ -38,7 +45,8 @@ class ServiceApp extends React.Component {
     }
 
     render() {
-        return this.renderApplication()
+        const {auth} = this.props
+        return auth.isAuthResolved ? this.renderApplication(auth) : <Spinner/>
     }
 }
 

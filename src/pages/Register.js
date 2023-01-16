@@ -4,6 +4,7 @@ import {connect} from 'react-redux'
 import { register } from "actions";
 import {useState} from 'react'
 import {Navigate} from 'react-router-dom'
+import onlyGuest from "components/hoc/onlyGuest";
 
  
 function Register(props) {
@@ -27,4 +28,4 @@ function Register(props) {
     )
 }
 
-export default connect()(Register)
+export default onlyGuest (connect()(Register))

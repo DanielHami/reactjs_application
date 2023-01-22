@@ -12,7 +12,7 @@ import  NotFound  from "pages/NotFound";
 import SecretPage from "pages/Hide";
 import React from "react";
 import CreateServices from "pages/services/createServices";
-import UserServices from "pages/UserServices";
+import UserServices from "pages/services/UserServices";
 import { connect } from "react-redux"
 import {logout} from "actions"
 import Spinner from "components/spinner/Spinner";

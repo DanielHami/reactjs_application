@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom"
 import {connect} from 'react-redux'
 import { useEffect } from "react"
 import { fetchById } from "actions"
+import OfferModal from "components/services/OfferModal"
 
 
    
@@ -17,7 +18,11 @@ function ServiceDetail(props) {
     
     return (
      <div>
-        <h1>Service detail with this id:{service.title}</h1>
+        <h1>{service.title}</h1>
+        <p>{service.image}</p>
+        <p>{service.description}</p>
+        <p>{service.price}</p>
+        <OfferModal service={service}/>
      </div>
     )
 }

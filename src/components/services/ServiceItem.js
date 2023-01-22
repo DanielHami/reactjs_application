@@ -8,9 +8,14 @@ export default function ServiceItem ({service}) {
        return text.substr(0, maxLenght) + '...'
     }
     return (
-        <div className="flex">
-        <p>{service.title}</p>
-        <p>{shortText(service.description)}</p>
+        <div className="flex flex-col">
+          <h1 className="text-red-700">Your services</h1>
+          <div>
+            <p>{service.title}</p>
+          </div>
+          <div>
+            <p>{shortText(service.description)}</p>
+          </div>
         <Link to={`services/${service.id}`}>Learn more</Link>
      </div>
     )

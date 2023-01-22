@@ -1,8 +1,8 @@
 import app from 'database'
-import { collection, getDocs, doc, getDoc, setDoc, where, query} from "firebase/firestore";
+import { collection, getDocs, doc, getDoc, setDoc,query, where} from "firebase/firestore";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,signInWithPopup, GithubAuthProvider, signOut } from "firebase/auth";
 import { getFirestore } from 'firebase/firestore'
-import { FETCH_SERVICES, FETCH_SERVICE_BY_ID, SET_AUTH_USER, RESET_AUTH_STATE } from 'types';
+import { FETCH_SERVICES, FETCH_SERVICE_BY_ID, SET_AUTH_USER, RESET_AUTH_STATE, FETCH_SERVICES_SUCCESS } from 'types';
 
 
 const db = getFirestore(app);
@@ -18,10 +18,11 @@ export async function fetchServices() {
 }
 
 export async function fetchUserServices(userId) {
-  const snapshot = await getDocs(collection(db, "services"));
-  const q = query(snapshot, where("user", "==", userId));
-  const services = q.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  const q = query(collection(db, "services"), where('user', '==', userId))
+  const snapshot = await getDocs(q);
+  const services = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
    return {
+    type: FETCH_SERVICES_SUCCESS,
     services
   }
 }

@@ -10,8 +10,6 @@ const withAuthorization = Component => {
 
         render() {
             const { auth } = this.props
-            console.log(auth.isAuth)
-            debugger
             return auth.isAuth ? <Component {...this.props}/> : <Navigate to='/login' />
         }
     }

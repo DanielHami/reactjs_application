@@ -1,42 +1,43 @@
-import { configureStore} from '@reduxjs/toolkit'
+import { configureStore, compose } from '@reduxjs/toolkit'
 import serviceApp from 'reducers'
+import thunk from 'redux-thunk'
+import logger from 'redux-logger'
 
-const logger = store => dispatch => action => {
-    console.group(action.type)
-    console.log('%c prevstate', 'color: gray', store.getState())
-    console.log('%c action', 'color: blue', action)
-    const returnValue = dispatch(action)
-    console.log('%c next state', 'color: green', store.getState())
-    console.groupEnd(action.type)
-    return returnValue
-}
 
-const promise = store => next => action => {
+/*const promise = store => next => action => {
     if (typeof action.then === 'function') {
         console.log(action)
         return action.then(next)
     }
     return next(action)
-}
+}*/
 
-const applyMiddlewares = (store, middlewares) => {
+/*const thunk = store => next => action => {
+    if (typeof action === 'function') {
+        return action(store.dispatch, store.getState)
+    }
+    return next(action)
+}*/
+/*const applyMiddlewares = (store, middlewares) => {
     middlewares.slice().reverse().forEach(middleware => {
         store.dispatch = middleware(store)(store.dispatch)
     })
-}
+}*/
 
 
 
 const initStore = () => {
-    const middlewares = [promise]
-    const reduxDevTools = window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    const middlewares = [thunk]
+    const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+    
+
     const store = configureStore({
-        reducer: serviceApp, reduxDevTools
+        reducer: serviceApp,
+        middleware: middlewares.concat(logger),
+        devTools: process.env.NODE_ENV !== 'production',
     })
-    if (process.env.NODE_ENV !== 'production') {
-        middlewares.push(logger)
-    }
-    applyMiddlewares(store, middlewares)
+
     return store
 }
 

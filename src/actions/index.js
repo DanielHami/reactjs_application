@@ -1,45 +1,51 @@
-import app from 'database'
-import { collection, getDocs, doc, getDoc, setDoc,query, where} from "firebase/firestore";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,signInWithPopup, GithubAuthProvider, signOut } from "firebase/auth";
-import { getFirestore } from 'firebase/firestore'
-import { FETCH_SERVICES, FETCH_SERVICE_BY_ID, SET_AUTH_USER, RESET_AUTH_STATE, FETCH_SERVICES_SUCCESS } from 'types';
+export * from './services'
+export * from './auth'
 
+
+//import app from 'database'
+//import { collection, getDocs, doc, getDoc, setDoc,query, where} from "firebase/firestore";
+//import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,signInWithPopup, GithubAuthProvider, signOut } from "firebase/auth";
+//import { getFirestore } from 'firebase/firestore'
+/*import { FETCH_SERVICES, FETCH_SERVICE_BY_ID, SET_AUTH_USER, RESET_AUTH_STATE, FETCH_SERVICES_SUCCESS } from 'types';
+
+import * as api from 'api'
 
 const db = getFirestore(app);
 const auth = getAuth();
 
-export async function fetchServices() {
-  const snapshot = await getDocs(collection(db, "services"));
-  const services = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-  return {
-    type: FETCH_SERVICES,
-    services
-  };
+//create user reference
+
+
+
+export const fetchServices = () => async dispatch => {
+    const snapshot = await getDocs(collection(db, "services"));
+    const services = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    return dispatch({type: FETCH_SERVICES, services});
 }
 
-export async function fetchUserServices(userId) {
+export const fetchUserServices = (userId) => async dispatch => {
   const q = query(collection(db, "services"), where('user', '==', userId))
   const snapshot = await getDocs(q);
   const services = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-   return {
-    type: FETCH_SERVICES_SUCCESS,
-    services
-  }
+   return dispatch({type: FETCH_SERVICES_SUCCESS,services})
 }
 
-export async function fetchById(serviceId) {
+export const fetchById = serviceId => async (dispatch, getState) => {  
+  const lastService = getState().selectedService.item
+  if(lastService.id && lastService.id === serviceId){return Promise.resolve()}
   const docRef = doc(db, "services", `${serviceId}`)
   const snapshot = await getDoc(docRef);
-  const service = { id: snapshot.id, ...snapshot.data() };
-  return {
-    type: FETCH_SERVICE_BY_ID,
-    service
-  };
+  const service = { id: snapshot.id, ...snapshot.data() }
+      const user = await service.user.get()
+      service.user = user.data()
+      service.user.id = user.id
+      dispatch({type: FETCH_SERVICE_BY_ID, service })
 }
+
 
 //save user to database
 
-async function createUserProfile(userProfile){
+const createUserProfile = async(userProfile) => {
   await setDoc(doc(db, "profile", `${userProfile.uid}`),userProfile)
 }
 
@@ -72,9 +78,9 @@ export const login = async ({ email, password}) => {
 
 //logout user 
 
-export const logout = async () => {
+export const logout = async () => async dispatch => {
  await signOut(auth);
-  return ({ user: null, type: SET_AUTH_USER });
+  return dispatch({ user: null, type: SET_AUTH_USER });
 }
 
 
@@ -100,6 +106,8 @@ signInWithPopup(auth, provider)
 
 export const onAuthStateChanged = onAuthCallback => getAuth().onAuthStateChanged(onAuthCallback)
 
+//Get user profile
+
 const getUserProfile = async uid => {
  const docRef = doc(db, "profile", `${uid}`)
   const snapshot = await getDoc(docRef);
@@ -108,12 +116,13 @@ const getUserProfile = async uid => {
 
 
 
-export const storeAuthUser = authUser => {
+export const storeAuthUser = authUser => dispatch => {
+  dispatch({type: RESET_AUTH_STATE})
   if (authUser) {
     return  getUserProfile(authUser.uid)
-            .then(userWithProfile => ({type: SET_AUTH_USER, user: userWithProfile}))
+            .then(userWithProfile => dispatch({type: SET_AUTH_USER, user: userWithProfile}))
   }else {
-    return ({user: null, type: SET_AUTH_USER})
+    return dispatch({user: null, type: SET_AUTH_USER})
   }
 }
 
@@ -125,10 +134,12 @@ export const resetAuthState = () => {
 }
 
 //create services
+export const createUserRef = (collection, docId) => doc(db, `${collection}/` + docId)
 
 export const createService = async (newService, userId) => {
   newService.price = parseInt(newService.price, 10)
-  newService.user = userId
+  newService.user = createUserRef('profile', userId)
   const a = doc(collection(db, "services"));
    await setDoc(a, newService )
 }
+*/

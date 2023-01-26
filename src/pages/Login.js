@@ -18,10 +18,10 @@ import onlyGuest from "components/hoc/onlyGuest";
         .then(() => setRedirection(true), errorMessage => toast.error(errorMessage))
     }
 
-    const loginHandleGithub = () => {
+ /*   const loginHandleGithub = () => {
         githubLogin()
           .then(() => setRedirection(true), errorMessage => toast.error(errorMessage))
-      }
+      }*/
     if(redirection) {
         return <Navigate to="/"></Navigate>
         
@@ -41,7 +41,7 @@ import onlyGuest from "components/hoc/onlyGuest";
                 <label>Password</label>
                 <input type="password" autoComplete="password"  {...register('password', { required: true, minLength: 8, pattern: /(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/i })} className="border-2"></input>
                 <button type="submit" className="border-2 mt-5 bg-blue-500 text-white p-2">Submit</button>
-                <button onClick={loginHandleGithub}>Login with GitHub</button>
+                
             </form>
             <div>
               <Toaster/>

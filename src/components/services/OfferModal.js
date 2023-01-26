@@ -16,7 +16,7 @@ const OfferModal = service => {
      const handleChange = ({target: {value, name}}) => {
         if(name === 'time') {
             const price = Math.round(value * service.service.price * 100) / 100
-            debugger
+            
             return setOffer({...offer, [name]: value, price})
         }
         return setOffer({...offer, [name]: value})
@@ -44,6 +44,9 @@ const OfferModal = service => {
                   className='border-2'>
                 </input>
             </form>
+            <div>
+                {service.service.user && `Uppon acceptance ${service.service.user.fullname}`}
+            </div>
             <p>Price: {offer.price}$</p>
         </Modal>
 

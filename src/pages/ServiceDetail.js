@@ -4,32 +4,33 @@ import { useEffect } from "react"
 import { fetchById } from "actions"
 import OfferModal from "components/services/OfferModal"
 
-
    
 function ServiceDetail(props) {
     const {serviceId} = useParams()
-    const {dispatch} = props
+    const {fetchById} = props
 
     useEffect(() => {
-        dispatch(fetchById(serviceId))
-    },[serviceId, dispatch])
+        fetchById(serviceId)
+    },[serviceId, fetchById])
 
-    const {service} = props
+    const {services} = props
     
+    
+
     return (
      <div>
-        <h1>{service.title}</h1>
-        <p>{service.image}</p>
-        <p>{service.description}</p>
-        <p>{service.price}</p>
-        <OfferModal service={service}/>
+        <h1>{services.title}</h1>
+        <p>{services.image}</p>
+        <p>{services.description}</p>
+        <p>{services.price}</p>
+        <OfferModal service={services}/>
      </div>
     )
 }
 const mappingProps = state => {
      return {
-        service: state.selectedService.item
+        services: state.selectedService.item
      }
 }
 
-export default connect(mappingProps)(ServiceDetail)
+export default connect(mappingProps, {fetchById})(ServiceDetail)

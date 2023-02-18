@@ -6,12 +6,13 @@ import React from "react"
 class UserServices extends React.Component {
    
     componentDidMount() {
-        const {auth: {user}, dispatch } = this.props
+        const {auth: {user}, dispatch} = this.props
         dispatch(fetchUserServices(user.uid))
     }
 
     render() {
         const {services} = this.props.auth.user
+
     return (
         <div>
             <div>

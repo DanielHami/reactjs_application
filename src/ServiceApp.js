@@ -16,6 +16,10 @@ import UserServices from "pages/services/UserServices";
 import { connect } from "react-redux"
 import {logout} from "actions"
 import Spinner from "components/spinner/Spinner";
+import SentOffers from "pages/offers/SentOffers";
+import RecievedOffers from "pages/offers/RecievedOffers";
+import RecievedCollaboration from "pages/collaborations/RecievedCollaboration";
+import CollaborationDetail from "pages/collaborations/CollaborationDetail";
 
 
 class ServiceApp extends React.Component {
@@ -29,6 +33,10 @@ class ServiceApp extends React.Component {
                   <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/profile" element={<Profile />}></Route>
+                    <Route path="/collaborations/me" element={<RecievedCollaboration/>} />
+                    <Route path="/collaborations/:id" element={<CollaborationDetail/>} />
+                    <Route path="/services/sent" element={<SentOffers/>} />
+                    <Route path="/services/recieved" element={<RecievedOffers/>} />
                     <Route path="/services/my" element={<UserServices/>} />
                     <Route path="/services/new" element={<CreateServices />} />
                     <Route path="/services/:serviceId" element={<ServiceDetail />}></Route>

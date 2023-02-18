@@ -1,10 +1,10 @@
-import { Link, NavLink } from "react-router-dom"
-
+import Dropdown from "components/dropdown/Dropdown"
+import RecievedMessages from "components/RecievedMessages"
+import {  Link } from "react-router-dom"
 
 export default function Navbar(props) {
     const { user, isAuth } = props.auth
     const { logout } = props
-
     return (
         <nav className="flex justify-between">
             <p>logo</p>
@@ -15,38 +15,32 @@ export default function Navbar(props) {
             }
             <ul className="flex gap-6">
                 <li>
-                    <NavLink to='/'>Home</NavLink>
+                    <Link to='/'>Home</Link>
                 </li>
                 <li>
-                    <NavLink to='/profile'>Profile</NavLink>
+                    <Link to='/profile'>Profile</Link>
                 </li>
                 <li>
-                    <NavLink to='/services'>Services</NavLink>
+                    <Link to='/services'>Services</Link>
                 </li>
                 <li>
-                    <NavLink to='/faq'>FAQ</NavLink>
+                    <Link to='/faq'>FAQ</Link>
                 </li>
-
                 {!isAuth && <>
                     <li>
-                        <NavLink to='/login'>Log in</NavLink>
+                        <Link to='/login'>Log in</Link>
                     </li>
                     <li>
-                        <NavLink to='/register'>Sign up</NavLink>
+                        <Link to='/register'>Sign up</Link>
                     </li>
                 </>
                 }
                 {
-                    isAuth && <>
-                                  <li>
-                                    <Link to="/">Manage</Link>
-                                  </li>
-                                  <li>
-                                    <Link to="/services/new">Create Service</Link>
-                                  </li>
-                                  <li>
-                                    <Link to="/services/my">Your Service</Link>
-                                 </li>
+                    isAuth && 
+                    <>  
+                        <Link to='/collaborations/me'>Recieved collaborations</Link>
+                        <Dropdown/>
+                        {user.messages && <RecievedMessages/>}
                         <button onClick={logout}>Logout</button>
                     </>
                 }

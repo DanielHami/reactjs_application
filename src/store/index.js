@@ -35,7 +35,7 @@ const initStore = () => {
     const store = configureStore({
         reducer: serviceApp,
         middleware: middlewares.concat(logger),
-        devTools: process.env.NODE_ENV !== 'production',
+        devTools: window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ,
     })
 
     return store

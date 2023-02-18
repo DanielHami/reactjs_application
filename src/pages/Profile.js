@@ -1,7 +1,13 @@
 
-function Profile () {
+
+const Profile = () => {
     return (
-        <div>This is a Profile page</div>
+        <div>
+            <div>This is a Profile page</div>
+            <div>
+                
+            </div>
+        </div>
     )
 }
 

@@ -4,6 +4,7 @@ import { useEffect } from "react"
 import { fetchById } from "actions"
 import OfferModal from "components/services/OfferModal"
 
+
    
 function ServiceDetail(props) {
     const {serviceId} = useParams()
@@ -13,7 +14,7 @@ function ServiceDetail(props) {
         fetchById(serviceId)
     },[serviceId, fetchById])
 
-    const {services} = props
+    const {services, auth} = props
     
     
 
@@ -23,13 +24,17 @@ function ServiceDetail(props) {
         <p>{services.image}</p>
         <p>{services.description}</p>
         <p>{services.price}</p>
-        <OfferModal service={services}/>
+        <OfferModal 
+        auth = {auth}
+        service={services}/>
      </div>
     )
 }
-const mappingProps = state => {
+const mappingProps = ({selectedService, auth}) => {
      return {
-        services: state.selectedService.item
+        services: selectedService.item,
+        auth
+        
      }
 }
 

@@ -1,12 +1,9 @@
-import app from 'database'
-import { getFirestore } from 'firebase/firestore'
-import { doc } from "firebase/firestore";
-
-
 export * from './services'
 export * from './auth'
+export * from './offer'
+export * from './collaboration'
 
-const db = getFirestore(app);
+//const db = getFirestore(app);
 
 
-export const createUserRef = (collection, docId) => doc(db, `${collection}/` + docId);
+//export const createUserRef = (collection, docId) => doc(db, `${collection}/` + docId);

@@ -1,8 +1,7 @@
 import app from 'database'
 import { getFirestore } from 'firebase/firestore'
 import {  doc, getDoc, setDoc } from "firebase/firestore";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
-import {  SET_AUTH_USER, RESET_AUTH_STATE} from 'types';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth"; 
 
 
 const db = getFirestore(app);
@@ -41,19 +40,11 @@ export const logout = async () => {
     await signOut(auth);
    }
 
-export const storeAuthUser = authUser => dispatch => {
-    dispatch({type: RESET_AUTH_STATE})
-    if (authUser) {
-      return  getUserProfile(authUser.uid)
-              .then(userWithProfile => dispatch({type: SET_AUTH_USER, user: userWithProfile}))
-    }else {
-      return dispatch({user: null, type: SET_AUTH_USER})
-    }
-  }
 
 export const getUserProfile = async uid => {
     const docRef = doc(db, "profile", `${uid}`)
      const snapshot = await getDoc(docRef);
-     return ({ uid, ...snapshot.data() });
+     const profile = ({ uid, ...snapshot.data() });
+     return profile
    }
 

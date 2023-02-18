@@ -23,6 +23,7 @@ class Home extends React.Component {
     return (
         <div>
            {this.renderServices(services)}
+           
         </div>
     )
 }

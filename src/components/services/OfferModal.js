@@ -1,7 +1,10 @@
 import Modal from "components/modals/Modal"
 import { useState } from "react"
+import toast, { Toaster } from 'react-hot-toast';
+import { createOffer } from "actions";
 
-const OfferModal = service => {
+const OfferModal = ({service, auth}) => {
+
 
     const [offer, setOffer] = useState({
         fromUser: '',
@@ -12,10 +15,10 @@ const OfferModal = service => {
         time: 0,
         note: ''
     })
-     
+  
      const handleChange = ({target: {value, name}}) => {
         if(name === 'time') {
-            const price = Math.round(value * service.service.price * 100) / 100
+            const price = Math.round(value * service.price * 100) / 100
             
             return setOffer({...offer, [name]: value, price})
         }
@@ -23,9 +26,22 @@ const OfferModal = service => {
      }
 
      const handleSubmit = () => {
-        alert(JSON.stringify(offer))
+
+        const copyOffer = {...offer}
+
+        copyOffer.fromUser = auth.user.uid
+        copyOffer.toUser =  service.user.uid
+        copyOffer.service = service.id
+        copyOffer.time = parseInt(offer.time, 10)
+        createOffer(copyOffer)
+        .then(_ => {
+            toast.success('Your offer is sended')
+        })
+        
      }
+     
     return (
+        <>
         <Modal onModalSubmit={handleSubmit}>
             <form className='flex flex-col'>
                 <label>Write some note</label>
@@ -45,11 +61,13 @@ const OfferModal = service => {
                 </input>
             </form>
             <div>
-                {service.service.user && `Uppon acceptance ${service.service.user.fullname}`}
+                {service.user && `Uppon acceptance ${service.user.fullname}`}
             </div>
             <p>Price: {offer.price}$</p>
         </Modal>
-
+        <Toaster position="top-right"
+                 reverseOrder={false}/>
+        </>
     )
 }
 
